@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="gwrapper",
+    name="translatial",
     description="Wrapper to use Google Translate as GraphQL",
-    author="Pyae Hlian Moe",
-    author_email="pyae.phm@gmail.com",
+    author="Techlestial Group(Kevin Moe Myint Myat,Pyae Hlian Moe)",
+    author_email="techlestial@gmail.com,mmm.myintmyat@gmail.com,pyae.phm@gmail.com",
     packages=find_packages(),
     install_requires=[
         "googletrans",
