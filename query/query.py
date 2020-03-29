@@ -1,7 +1,7 @@
 from graphene import ObjectType
 
-
+from .language import LanguageQuery
 from .translatial import GoogleTranslateQuery
 
-class Query(GoogleTranslateQuery, ObjectType):
+class Query(LanguageQuery,GoogleTranslateQuery, ObjectType):
     pass

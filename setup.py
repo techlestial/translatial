@@ -8,6 +8,10 @@ setup(
     packages=find_packages(),
     install_requires=[
         "googletrans",
-        "graphene"
+        "graphene",
+        "flask",
+        "flask_cors",
+        "flask_graphql",
+        "requests"
     ]
 )
