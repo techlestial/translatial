@@ -1,0 +1,10 @@
+googletrans
+graphene
+flask
+requests
+six
+flask_cors
+flask_graphql
+requests
+pylint
+autopep8

@@ -2,7 +2,7 @@ import json
 
 from graphene import ObjectType, List, String
 from .constants import GoogleTranslate
-from utils import json2obj
+from libs.utils.jsonutils import json2obj
 
 
 def _init_google_translate():
@@ -17,8 +17,8 @@ class GoogleTranslateQuery(ObjectType):
     google_translate = List(GoogleTranslate, content=String(
         required=True), target_language_code=String(required=True), source_language_code=String(default_value="en"))
 
-    def resolve_google_translate(self, info, content, dest_lan, src_lan):
+    def resolve_google_translate(self, content, target_language_code, source_language_code):
         translator = _init_google_translate()
-        response = translator.translate(content, dest=dest_lan, src=src_lan)[
+        response = translator.translate(content, dest=target_language_code, src=source_language_code)[
             "google_translate"]
         return json2obj(json.dumps(response))

@@ -1,5 +1,6 @@
-from graphene import ObjectType,String
+from graphene import ObjectType, String
+
 
 class Language(ObjectType):
-  name = String()
-  lang_code = String()
+    name = String()
+    lang_code = String()
