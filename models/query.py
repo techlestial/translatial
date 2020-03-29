@@ -1,6 +1,11 @@
 from graphene import ObjectType, String
 
 
+class Language(ObjectType):
+    name = String()
+    lang_code = String()
+
+
 class GoogleTranslate(ObjectType):
     content = String()
     source_language_code = String()

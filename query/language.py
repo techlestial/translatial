@@ -1,5 +1,5 @@
 from graphene import ObjectType, List, String
-from models.language import Language
+from models.query import Language
 from libs.utils.commonutils import get_languages
 
 

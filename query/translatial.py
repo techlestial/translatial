@@ -1,7 +1,7 @@
 import json
 
 from graphene import ObjectType, List, String
-from .constants import GoogleTranslate
+from models.query import GoogleTranslate
 from libs.utils.jsonutils import json2obj
 
 
