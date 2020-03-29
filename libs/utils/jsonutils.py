@@ -1,5 +1,4 @@
 import json
-import six
 
 
 def json2obj(data):
@@ -10,12 +9,8 @@ def json2obj(data):
 
 
 def decode_json(s, **kwargs):
-    if isinstance(s, six.binary_type):
-        s = s.decode("utf-8")
     return json.loads(s, **kwargs)
 
 
 def encode_json(s, **kwargs):
-    if isinstance(s, six.text_type):
-        s = s.encode()
     return json.dumps(s, **kwargs)
