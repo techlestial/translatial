@@ -1,5 +1,6 @@
 import json
 import requests
+import googletrans
 
 
 def get_languages():
@@ -19,23 +20,20 @@ def is_language_valid(s):
     if (type(s) is not str):
         return
 
-    from googletrans import Translator
-    detected_language = Translator().detect(s).lang
+    detected_language = googletrans.Translator().detect(s).lang
     if get_languages().get(detected_language) is not None:
         return True
     return False
 
 
 def google_translate():
-    from googletrans import Translator
-    translate = Translator(service_urls=[
+    translate = googletrans.Translator(service_urls=[
         "translate.google.com"
     ])
     return translate
 
 
 def map_lang_code(code):
-    import googletrans
     from .jsonutils import encode_json, json2obj
     data = dict()
     if googletrans.LANGUAGES.get(code):
