@@ -34,10 +34,10 @@ def google_translate():
 
 
 def map_lang_code(code):
-    from .jsonutils import encode_json, json2obj
+    from .jsonutils import encode_json
     data = dict()
     if googletrans.LANGUAGES.get(code):
         data["name"] = googletrans.LANGUAGES[code]
         data["lang_code"] = code
-        return json2obj(encode_json(data))
+        return encode_json(data)
     return None

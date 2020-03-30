@@ -17,6 +17,6 @@ class TranslateWords(Mutation):
         result_list = []
         for target in target_languages:
             response = translator.translate(content, dest=target)
-            result_list.append(Translation(target_language=map_lang_code(target), content=response.text,
+            result_list.append(Translation(target_language=json2obj(map_lang_code(target)), content=response.text,
                                            pronunciation=response.pronunciation if response.pronunciation else 'N.A'))
         return TranslateWords(result=result_list)
