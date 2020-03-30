@@ -9,7 +9,7 @@ This is a Translation-As-A-Service (TAAS) GraphQL backend API server for transla
  - Graphene graphql
  - Google Translate
 
-### Setting up
+### Setting up ⚙️
 
 Assumed you have python and virtualenv installed
 
@@ -19,10 +19,13 @@ Assumed you have python and virtualenv installed
   - export FLASK_DEBUG=True (for debugging)
   - flask run
 
-### Serving Production
+### Serving Production 🍹
 
 Production server is served using Waitress
+by
 
- **To be continued**
+``sh
+$ waitress-serve --port 5000 app:app
+``
 
 ### Happy Coding!
