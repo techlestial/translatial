@@ -24,7 +24,7 @@ Assumed you have python and virtualenv installed
 Production server is served using Waitress
 by
 
-``sh
+``
 $ waitress-serve --port 5000 app:app
 ``
 
