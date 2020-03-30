@@ -24,3 +24,10 @@ def is_language_valid(s):
     if get_languages().get(detected_language) is not None:
         return True
     return False
+
+def _init_google_translate():
+    from googletrans import Translator
+    translate = Translator(service_urls=[
+        "translate.google.com"
+    ])
+    return translate
