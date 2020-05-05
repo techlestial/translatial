@@ -2,6 +2,11 @@
 
 This is a Translation-As-A-Service (TAAS) GraphQL backend API server for translating multiple languages at one time.
 
+https://translatial.m3yevn.endpoint.ainize.ai/graphql
+
+[![Run on Ainize](https://ainize.ai/static/images/run_on_ainize_button.svg)](https://translatial.m3yevn.endpoint.ainize.ai/graphql)
+
+
 ### Tech Stacks 📚
 
  - Python 🐍
