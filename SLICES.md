@@ -10,7 +10,7 @@ Translation-as-a-Service GraphQL API · [@techlestial](https://techlestial.verce
 | Vitest + CI | ✅ |
 | DeepL live mode (`DEEPL_API_KEY`) | ✅ code · env on deploy |
 | Rate limiting / API keys | 🔜 |
-| GraphiQL playground polish | 🔜 |
+| GraphiQL playground on `/graphql` | ✅ |
 | npm package (optional client SDK) | 🔜 |
 
 **Live:** https://translatial.vercel.app ✅ · **GraphQL:** `/graphql`

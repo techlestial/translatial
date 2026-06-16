@@ -34,6 +34,26 @@ describe("Translatial GraphQL", () => {
     );
   });
 
+  it("translates hello world to chinese in mock mode", async () => {
+    const response = await yoga.fetch("http://localhost/graphql", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: `
+          mutation {
+            translateWords(content: "Hello, World", targetLanguages: ["zh-cn"]) {
+              result { content targetLanguage { langCode } }
+            }
+          }
+        `,
+      }),
+    });
+
+    const body = await response.json();
+    expect(body.errors).toBeUndefined();
+    expect(body.data.translateWords.result[0].content).toBe("你好，世界");
+  });
+
   it("translates words in mock mode", async () => {
     const response = await yoga.fetch("http://localhost/graphql", {
       method: "POST",
@@ -58,7 +78,10 @@ describe("Translatial GraphQL", () => {
     expect(body.errors).toBeUndefined();
     const rows = body.data.translateWords.result;
     expect(rows).toHaveLength(2);
-    expect(rows[0].content).toContain("Hello");
+    expect(rows[0].targetLanguage.langCode).toBe("my");
+    expect(rows[0].content).toBe("မင်္ဂလာပါ");
+    expect(rows[1].targetLanguage.langCode).toBe("ja");
+    expect(rows[1].content).toBe("こんにちは");
     expect(rows[0].pronunciation).toBe("N.A");
   });
 

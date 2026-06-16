@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createGraphQLServer } from "../src/schema.js";
 
-const yoga = createGraphQLServer(process.env.NODE_ENV !== "production");
+const yoga = createGraphQLServer(process.env.GRAPHIQL !== "false");
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const protocol = req.headers["x-forwarded-proto"] ?? "https";

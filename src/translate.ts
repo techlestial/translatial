@@ -13,6 +13,37 @@ function useMock(): boolean {
   return !process.env.DEEPL_API_KEY;
 }
 
+/** Demo phrases so mock mode feels real in the playground (no API key). */
+const MOCK_PHRASES: Record<string, Record<string, string>> = {
+  "hello, world": {
+    "zh-cn": "你好，世界",
+    "zh-tw": "你好，世界",
+    my: "မင်္ဂလာပါ၊ ကမ္ဘာလောက",
+    ja: "こんにちは、世界",
+    ko: "안녕하세요, 세계",
+    fr: "Bonjour le monde",
+    es: "Hola, mundo",
+    de: "Hallo, Welt",
+  },
+  hello: {
+    "zh-cn": "你好",
+    "zh-tw": "你好",
+    my: "မင်္ဂလာပါ",
+    ja: "こんにちは",
+    ko: "안녕하세요",
+    fr: "Bonjour",
+    es: "Hola",
+    de: "Hallo",
+  },
+};
+
+function mockTranslation(content: string, langCode: string, languageName: string): string {
+  const key = content.toLowerCase().trim();
+  const phrase = MOCK_PHRASES[key]?.[langCode];
+  if (phrase) return phrase;
+  return `[${languageName}] ${content}`;
+}
+
 async function translateWithDeepL(
   content: string,
   targetLang: string
@@ -62,7 +93,7 @@ export async function translateWords(
 
     let text: string;
     if (useMock()) {
-      text = `[${language.name}] ${content}`;
+      text = mockTranslation(content, code, language.name);
     } else {
       const translated = await translateWithDeepL(content, code);
       text = translated.text;

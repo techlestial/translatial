@@ -35,6 +35,24 @@
         <p>Endpoint: <code>POST /graphql</code> · Metadata: <code>GET /api/info</code></p>
 
         <h2>Quick start</h2>
+        <p>
+          Opening <code>/graphql</code> in the browser shows <strong>GraphiQL</strong> — paste a query
+          and hit Run. A bare visit without a query returns
+          <code>Must provide query string</code> (normal GraphQL behaviour).
+        </p>
+
+        <h3>Try in the browser (GET)</h3>
+        <p>List languages:</p>
+        <pre><a href="/graphql?query=%7B%20languages%20%7B%20name%20langCode%20%7D%20%7D">/graphql?query={ languages { name langCode } }</a></pre>
+
+        <h3>Hello, World → 你好，世界 (POST)</h3>
+        <pre>curl -X POST https://translatial.vercel.app/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"mutation { translateWords(content: \"Hello, World\", targetLanguages: [\"zh-cn\", \"my\", \"ja\"]) { result { targetLanguage { name langCode } content } } }"}'</pre>
+        <p>Mock mode (default without <code>DEEPL_API_KEY</code>) returns real demo phrases for
+          <code>Hello</code> and <code>Hello, World</code>. Other text is prefixed with the language name.</p>
+
+        <h3>List languages (POST)</h3>
         <pre>curl -X POST https://translatial.vercel.app/graphql \
   -H "Content-Type: application/json" \
   -d '{"query":"{ languages { name langCode } }"}'</pre>
@@ -52,8 +70,8 @@
         <p>Translate <code>content</code> into each code in <code>targetLanguages</code>.</p>
         <pre>mutation {
   translateWords(
-    content: "Hello, world!"
-    targetLanguages: ["my", "ja", "fr"]
+    content: "Hello, World"
+    targetLanguages: ["zh-cn", "my", "ja"]
   ) {
     result {
       targetLanguage { name langCode }
@@ -62,6 +80,7 @@
     }
   }
 }</pre>
+        <p>Example response (mock mode): <code>你好，世界</code> for <code>zh-cn</code>.</p>
 
         <h2>Environment variables</h2>
         <ul>
