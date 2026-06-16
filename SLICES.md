@@ -13,6 +13,6 @@ Translation-as-a-Service GraphQL API · [@techlestial](https://techlestial.verce
 | GraphiQL playground polish | 🔜 |
 | npm package (optional client SDK) | 🔜 |
 
-**Live:** https://translatial.vercel.app · **GraphQL:** `/graphql`
+**Live:** https://translatial.vercel.app ✅ · **GraphQL:** `/graphql`
 
 **Lap:** Eternal Flame Phase 1 — replace dead Ainize endpoint with Vercel serverless.
