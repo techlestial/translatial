@@ -1,0 +1,7 @@
+legacy/
+node_modules/
+.env
+.env.local
+.venv/
+venv/
+__pycache__/

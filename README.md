@@ -37,7 +37,7 @@ Copy `.env.example` to `.env.local` for Vercel dev. Default mode is **mock** (no
 
 ## Legacy (v1)
 
-Python Flask + Graphene + googletrans — preserved in repo root for reference. The Ainize deployment is retired.
+Python Flask + Graphene + googletrans — preserved in `legacy/python/` for reference. The Ainize deployment is retired.
 
 ## License
 

@@ -1,13 +1,17 @@
 {
-  "functions": {
-    "api/graphql.ts": {
-      "maxDuration": 30
-    }
-  },
-  "rewrites": [
-    { "source": "/docs", "destination": "/docs.html" },
-    { "source": "/graphql", "destination": "/api/graphql" },
-    { "source": "/api/info", "destination": "/api/info" }
+  "version": 2,
+  "installCommand": "npm ci",
+  "builds": [
+    { "src": "api/graphql.ts", "use": "@vercel/node" },
+    { "src": "api/info.ts", "use": "@vercel/node" },
+    { "src": "public/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/graphql", "dest": "/api/graphql.ts" },
+    { "src": "/api/info", "dest": "/api/info.ts" },
+    { "src": "/docs", "dest": "/public/docs.html" },
+    { "src": "/", "dest": "/public/index.html" },
+    { "src": "/(.*)", "dest": "/public/$1" }
   ],
   "headers": [
     {
