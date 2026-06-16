@@ -1,36 +1,44 @@
 # Translatial ㊗️
 
-This is a Translation-As-A-Service (TAAS) GraphQL backend API server for translating multiple languages at one time.
+**Translation-as-a-Service (TAAS)** — GraphQL API for translating text into multiple languages in one request.
 
-https://translatial.m3yevn.endpoint.ainize.ai/graphql
+Originally conceived years ago on Flask + Ainize. **v2** is reborn on Vercel with TypeScript, GraphQL Yoga, and the Eternal Flame portfolio standard.
 
-[![Run on Ainize](https://ainize.ai/static/images/run_on_ainize_button.svg)](https://translatial.m3yevn.endpoint.ainize.ai/graphql)
+| | |
+|---|---|
+| **Live** | https://translatial.vercel.app |
+| **GraphQL** | `POST /graphql` |
+| **Docs** | [/docs](https://translatial.vercel.app/docs) |
+| **Studio** | [@techlestial](https://techlestial.vercel.app) |
 
+## Quick start
 
-### Tech Stacks 📚
+```bash
+curl -X POST https://translatial.vercel.app/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"mutation { translateWords(content: \"Hello\", targetLanguages: [\"my\", \"ja\"]) { result { content targetLanguage { langCode } } } }"}'
+```
 
- - Python 🐍
- - Flask 🍶
- - Graphene graphql
- - Google Translate
+## Local development
 
-### Setting up ⚙️
+```bash
+npm install
+npm test
+npx vercel dev
+```
 
-Assumed you have python and virtualenv installed
+Copy `.env.example` to `.env.local` for Vercel dev. Default mode is **mock** (no API key required).
 
-  - virtualenv venv
-  - source venv/bin/activate
-  - pip install . (using setup.py)
-  - export FLASK_DEBUG=True (for debugging)
-  - flask run
+## Stack (v2)
 
-### Serving Production 🍹
+- TypeScript, GraphQL Yoga, Vercel serverless
+- Static landing in `public/` (express-instant pattern)
+- Optional [DeepL](https://www.deepl.com/pro-api) for live translations
 
-Production server is served using Waitress
-by
+## Legacy (v1)
 
-``
-$ waitress-serve --port 5000 app:app
-``
+Python Flask + Graphene + googletrans — preserved in repo root for reference. The Ainize deployment is retired.
 
-### Happy Coding!
+## License
+
+MIT · Kevin Moe Myint Myat · Eternal Flame

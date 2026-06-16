@@ -130,3 +130,10 @@ dmypy.json
 
 # Custom
 .vscode/
+
+# Node (v2 rebirth)
+node_modules/
+dist/
+.env
+.env.local
+.vercel/

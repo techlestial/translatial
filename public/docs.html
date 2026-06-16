@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Translatial — API docs</title>
+    <meta name="description" content="GraphQL API reference for Translatial — languages query and translateWords mutation." />
+    <link rel="canonical" href="https://translatial.vercel.app/docs" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="logo">
+          <span>㊗️</span>
+          <span class="logo-text">Trans<strong>latial</strong></span>
+        </a>
+        <nav class="nav">
+          <a href="/">Home</a>
+          <a href="/graphql">GraphQL</a>
+          <a href="https://github.com/techlestial/translatial" rel="noopener">GitHub</a>
+        </nav>
+      </div>
+    </header>
+    <main class="docs-main">
+      <div class="container">
+        <h1>API reference</h1>
+        <p>Endpoint: <code>POST /graphql</code> · Metadata: <code>GET /api/info</code></p>
+
+        <h2>Quick start</h2>
+        <pre>curl -X POST https://translatial.vercel.app/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"{ languages { name langCode } }"}'</pre>
+
+        <h2>Query — languages</h2>
+        <p>Returns the supported language catalog (stable list, no external scrape).</p>
+        <pre>{
+  languages {
+    name
+    langCode
+  }
+}</pre>
+
+        <h2>Mutation — translateWords</h2>
+        <p>Translate <code>content</code> into each code in <code>targetLanguages</code>.</p>
+        <pre>mutation {
+  translateWords(
+    content: "Hello, world!"
+    targetLanguages: ["my", "ja", "fr"]
+  ) {
+    result {
+      targetLanguage { name langCode }
+      content
+      pronunciation
+    }
+  }
+}</pre>
+
+        <h2>Environment variables</h2>
+        <ul>
+          <li><code>TRANSLATION_MODE=mock</code> — prefix translations (default when no DeepL key)</li>
+          <li><code>TRANSLATION_MODE=live</code> — require <code>DEEPL_API_KEY</code></li>
+          <li><code>DEEPL_API_KEY</code> — DeepL API key for production translations</li>
+          <li><code>DEEPL_API_URL</code> — optional; defaults to DeepL free API</li>
+        </ul>
+
+        <h2>Local development</h2>
+        <pre>npm install
+npm test
+npx vercel dev</pre>
+        <p>
+          GraphiQL is enabled when <code>NODE_ENV</code> is not <code>production</code>.
+          Legacy Python Flask implementation is preserved in the repo root for reference.
+        </p>
+
+        <h2>History</h2>
+        <p>
+          v1 shipped on Ainize with Flask + Graphene + googletrans. v2 (Eternal Flame) is
+          TypeScript on Vercel — same GraphQL shape, maintainable dependencies, and optional
+          DeepL instead of scraping Google Translate.
+        </p>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <a href="/">← Back to Translatial</a>
+      </div>
+    </footer>
+  </body>
+</html>

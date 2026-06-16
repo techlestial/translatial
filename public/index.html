@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Translatial — Translation-as-a-Service GraphQL API</title>
+    <meta
+      name="description"
+      content="Translatial is a GraphQL API for translating text into multiple languages in one request. Built by Kevin Moe Myint Myat for the @techlestial studio — reborn for the AI era."
+    />
+    <meta
+      name="keywords"
+      content="translatial, translation API, GraphQL, TAAS, multilingual, techlestial, Kevin Moe Myint Myat"
+    />
+    <meta name="author" content="Kevin Moe Myint Myat" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="canonical" href="https://translatial.vercel.app/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Translatial — Multi-language GraphQL translation API" />
+    <meta
+      property="og:description"
+      content="Translate text into many languages in a single GraphQL mutation."
+    />
+    <meta property="og:url" content="https://translatial.vercel.app/" />
+    <meta property="og:site_name" content="Translatial" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Translatial" />
+    <meta
+      name="twitter:description"
+      content="GraphQL translation API — one request, many languages."
+    />
+    <meta name="twitter:creator" content="@m3yevn" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Translatial",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "description": "Translation-as-a-Service GraphQL API for multi-language translation.",
+        "url": "https://translatial.vercel.app/",
+        "author": {
+          "@type": "Person",
+          "name": "Kevin Moe Myint Myat",
+          "url": "https://kevinmoemyintmyat.vercel.app"
+        },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="logo">
+          <span>㊗️</span>
+          <span class="logo-text">Trans<strong>latial</strong></span>
+        </a>
+        <nav class="nav">
+          <a href="/docs">Docs</a>
+          <a href="/graphql">GraphQL</a>
+          <a href="https://github.com/techlestial/translatial" rel="noopener">GitHub</a>
+          <a href="https://techlestial.vercel.app" rel="noopener">@techlestial</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="container">
+          <span class="version-badge">v2.0 — Eternal Flame rebirth</span>
+          <h1>Many languages, <span class="accent">one request</span></h1>
+          <p class="hero-lead">
+            Originally conceived years ago as a TAAS GraphQL backend. Reimagined on Vercel with
+            serverless TypeScript — mock mode for demos, DeepL for production.
+          </p>
+          <div class="endpoint-block">POST https://translatial.vercel.app/graphql</div>
+          <p style="margin-top: 24px">
+            <a class="btn" href="/docs">Read the docs</a>
+            <a class="btn btn-outline" href="/graphql">Open GraphQL</a>
+          </p>
+        </div>
+      </section>
+      <section class="features">
+        <div class="container">
+          <h2>Why Translatial</h2>
+          <div class="grid">
+            <article class="card">
+              <h3>GraphQL-first</h3>
+              <p>
+                Query supported languages and translate into multiple targets in a single
+                <code>translateWords</code> mutation.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Serverless on Vercel</h3>
+              <p>
+                No Docker, no legacy PaaS. Preview deploys on every PR, production on push to
+                main.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Mock or live</h3>
+              <p>
+                Demo without API keys (<code>TRANSLATION_MODE=mock</code>) or wire
+                <code>DEEPL_API_KEY</code> for real translations.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        MIT · Eternal Flame ·
+        <a href="https://kevinmoemyintmyat.vercel.app">Kevin Moe Myint Myat</a> ·
+        <a href="https://techlestial.vercel.app">@techlestial</a>
+      </div>
+    </footer>
+  </body>
+</html>
