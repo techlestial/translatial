@@ -6,9 +6,10 @@ Translation-as-a-Service GraphQL API · [@techlestial](https://techlestial.verce
 |-------|--------|
 | v2 TypeScript + GraphQL Yoga on Vercel | ✅ |
 | Static landing + `/docs` + SEO | ✅ express-instant routes |
-| Mock translation mode | ✅ |
+| Mock translation mode | ✅ tests only (`TRANSLATION_MODE=mock`) |
 | Vitest + CI | ✅ |
-| DeepL live mode (`DEEPL_API_KEY`) | ✅ code · env on deploy |
+| Live GraphQL wrapper (MyMemory) | ✅ any content, no key |
+| DeepL live mode (`DEEPL_API_KEY`) | ✅ optional provider |
 | Rate limiting / API keys | 🔜 |
 | GraphiQL playground on `/graphql` | ✅ |
 | npm package (optional client SDK) | 🔜 |

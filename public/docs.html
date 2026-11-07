@@ -45,12 +45,14 @@
         <p>List languages:</p>
         <pre><a href="/graphql?query=%7B%20languages%20%7B%20name%20langCode%20%7D%20%7D">/graphql?query={ languages { name langCode } }</a></pre>
 
-        <h3>Hello, World → 你好，世界 (POST)</h3>
+        <h3>Translate any sentence (POST)</h3>
         <pre>curl -X POST https://translatial.vercel.app/graphql \
   -H "Content-Type: application/json" \
-  -d '{"query":"mutation { translateWords(content: \"Hello, World\", targetLanguages: [\"zh-cn\", \"my\", \"ja\"]) { result { targetLanguage { name langCode } content } } }"}'</pre>
-        <p>Mock mode (default without <code>DEEPL_API_KEY</code>) returns real demo phrases for
-          <code>Hello</code> and <code>Hello, World</code>. Other text is prefixed with the language name.</p>
+  -d '{"query":"mutation { translateWords(content: \"The weather is nice today\", targetLanguages: [\"zh-cn\", \"my\", \"ja\"]) { result { targetLanguage { name langCode } content } } }"}'</pre>
+        <p>
+          GraphQL is a wrapper around a translation API (MyMemory by default). Any
+          <code>content</code> string is translated — not only demo phrases.
+        </p>
 
         <h3>List languages (POST)</h3>
         <pre>curl -X POST https://translatial.vercel.app/graphql \
@@ -70,7 +72,7 @@
         <p>Translate <code>content</code> into each code in <code>targetLanguages</code>.</p>
         <pre>mutation {
   translateWords(
-    content: "Hello, World"
+    content: "The weather is nice today"
     targetLanguages: ["zh-cn", "my", "ja"]
   ) {
     result {
@@ -80,14 +82,14 @@
     }
   }
 }</pre>
-        <p>Example response (mock mode): <code>你好，世界</code> for <code>zh-cn</code>.</p>
+        <p>Live example: <code>今天天气不错</code> for <code>zh-cn</code> from “The weather is nice today”.</p>
 
         <h2>Environment variables</h2>
         <ul>
-          <li><code>TRANSLATION_MODE=mock</code> — prefix translations (default when no DeepL key)</li>
-          <li><code>TRANSLATION_MODE=live</code> — require <code>DEEPL_API_KEY</code></li>
-          <li><code>DEEPL_API_KEY</code> — DeepL API key for production translations</li>
-          <li><code>DEEPL_API_URL</code> — optional; defaults to DeepL free API</li>
+          <li><code>TRANSLATE_PROVIDER=mymemory</code> — default live provider (no key)</li>
+          <li><code>MYMEMORY_EMAIL</code> — optional; raises MyMemory daily quota</li>
+          <li><code>TRANSLATE_PROVIDER=deepl</code> + <code>DEEPL_API_KEY</code> — DeepL instead</li>
+          <li><code>TRANSLATION_MODE=mock</code> — canned phrases for tests only</li>
         </ul>
 
         <h2>Local development</h2>
@@ -101,9 +103,8 @@ npx vercel dev</pre>
 
         <h2>History</h2>
         <p>
-          v1 shipped on Ainize with Flask + Graphene + googletrans. v2 (Eternal Flame) is
-          TypeScript on Vercel — same GraphQL shape, maintainable dependencies, and optional
-          DeepL instead of scraping Google Translate.
+          v1 shipped on Ainize with Flask + Graphene + googletrans. v2 is TypeScript on Vercel
+          with the same GraphQL shape: <code>translateWords</code> wraps a translation HTTP API.
         </p>
       </div>
     </main>
@@ -111,7 +112,7 @@ npx vercel dev</pre>
       <div class="container">
         <a href="/">← Back to Translatial</a> ·
         <a href="https://techlestial.vercel.app">Techlestial Labs</a> ·
-        <a href="https://kevinmoemyintmyat.vercel.app">Kevin Moe Myint Myat</a>
+        <a href="https://journal.kevinmyat.com">Kevin Moe Myint Myat</a>
       </div>
     </footer>
   </body>

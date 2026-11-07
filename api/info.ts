@@ -6,7 +6,10 @@ const apiInfo = {
   version: "2.0.0",
   description: "GraphQL API for multi-language translation in one request",
   route: "/graphql",
-  mode: process.env.TRANSLATION_MODE ?? (process.env.DEEPL_API_KEY ? "live" : "mock"),
+  mode: process.env.TRANSLATION_MODE ?? "live",
+  provider:
+    process.env.TRANSLATE_PROVIDER ??
+    (process.env.TRANSLATION_MODE === "mock" ? "mock" : process.env.DEEPL_API_KEY ? "deepl" : "mymemory"),
   docs: "/docs",
 };
 

@@ -1,8 +1,6 @@
 # Translatial ㊗️
 
-**Translation-as-a-Service (TAAS)** — GraphQL API for translating text into multiple languages in one request.
-
-Originally conceived years ago on Flask + Ainize. **v2** is reborn on Vercel with TypeScript, GraphQL Yoga, and the Eternal Flame portfolio standard.
+**Translation-as-a-Service (TAAS)** — GraphQL wrapper around a translation API. Send any text, pick target languages, get them all in one request.
 
 | | |
 |---|---|
@@ -16,8 +14,10 @@ Originally conceived years ago on Flask + Ainize. **v2** is reborn on Vercel wit
 ```bash
 curl -X POST https://translatial.vercel.app/graphql \
   -H "Content-Type: application/json" \
-  -d '{"query":"mutation { translateWords(content: \"Hello\", targetLanguages: [\"my\", \"ja\"]) { result { content targetLanguage { langCode } } } }"}'
+  -d '{"query":"mutation { translateWords(content: \"The weather is nice today\", targetLanguages: [\"my\", \"ja\", \"zh-cn\"]) { result { content targetLanguage { langCode } } } }"}'
 ```
+
+Default provider is [MyMemory](https://mymemory.translated.net/doc/spec.php) (no API key). Set `DEEPL_API_KEY` to use DeepL instead.
 
 ## Local development
 
@@ -27,17 +27,17 @@ npm test
 npx vercel dev
 ```
 
-Copy `.env.example` to `.env.local` for Vercel dev. Default mode is **mock** (no API key required).
+Copy `.env.example` to `.env.local` if you want DeepL or a MyMemory email quota bump.
 
 ## Stack (v2)
 
 - TypeScript, GraphQL Yoga, Vercel serverless
-- Static landing in `public/` (express-instant pattern)
-- Optional [DeepL](https://www.deepl.com/pro-api) for live translations
+- Static landing in `public/`
+- Live translations via MyMemory (default) or DeepL
 
 ## Legacy (v1)
 
-Python Flask + Graphene + googletrans — preserved in `legacy/python/` for reference. The Ainize deployment is retired.
+Python Flask + Graphene + googletrans — preserved in `legacy/python/` for reference.
 
 ## License
 

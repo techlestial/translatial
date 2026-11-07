@@ -7,13 +7,9 @@ export type TranslationResult = {
   pronunciation: string;
 };
 
-function useMock(): boolean {
-  if (process.env.TRANSLATION_MODE === "live") return false;
-  if (process.env.TRANSLATION_MODE === "mock") return true;
-  return !process.env.DEEPL_API_KEY;
-}
+export type TranslateProvider = "mock" | "mymemory" | "deepl";
 
-/** Demo phrases so mock mode feels real in the playground (no API key). */
+/** Demo phrases for unit tests (`TRANSLATION_MODE=mock`). */
 const MOCK_PHRASES: Record<string, Record<string, string>> = {
   "hello, world": {
     "zh-cn": "你好，世界",
@@ -37,26 +33,84 @@ const MOCK_PHRASES: Record<string, Record<string, string>> = {
   },
 };
 
-function mockTranslation(content: string, langCode: string, languageName: string): string {
-  const key = content.toLowerCase().trim();
-  const phrase = MOCK_PHRASES[key]?.[langCode];
-  if (phrase) return phrase;
-  return `[${languageName}] ${content}`;
+export function resolveProvider(): TranslateProvider {
+  if (process.env.TRANSLATION_MODE === "mock") return "mock";
+  if (process.env.TRANSLATE_PROVIDER === "mock") return "mock";
+  if (
+    process.env.TRANSLATE_PROVIDER === "deepl" ||
+    (process.env.DEEPL_API_KEY && process.env.TRANSLATE_PROVIDER !== "mymemory")
+  ) {
+    if (!process.env.DEEPL_API_KEY) {
+      throw new GraphQLError("DEEPL_API_KEY is not configured");
+    }
+    return "deepl";
+  }
+  return "mymemory";
 }
 
-async function translateWithDeepL(
-  content: string,
-  targetLang: string
-): Promise<{ text: string }> {
+function mockTranslation(content: string, langCode: string, languageName: string): string {
+  const key = content.toLowerCase().trim();
+  return MOCK_PHRASES[key]?.[langCode] ?? `[${languageName}] ${content}`;
+}
+
+function toMyMemoryLang(code: string): string {
+  if (code === "zh-cn") return "zh-CN";
+  if (code === "zh-tw") return "zh-TW";
+  return code;
+}
+
+function toDeepLLang(code: string): string {
+  if (code === "zh-cn" || code === "zh-tw") return "ZH";
+  if (code === "pt") return "PT";
+  if (code === "en") return "EN";
+  return code.toUpperCase().split("-")[0];
+}
+
+async function translateWithMyMemory(content: string, targetLang: string): Promise<string> {
+  const params = new URLSearchParams({
+    q: content,
+    langpair: `Autodetect|${toMyMemoryLang(targetLang)}`,
+  });
+  const email = process.env.MYMEMORY_EMAIL;
+  if (email) params.set("de", email);
+
+  const response = await fetch(`https://api.mymemory.translated.net/get?${params}`, {
+    headers: { Accept: "application/json" },
+  });
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new GraphQLError(`Translation API error ${response.status}: ${detail}`);
+  }
+
+  const payload = (await response.json()) as {
+    responseStatus?: number;
+    quotaFinished?: boolean;
+    responseData?: { translatedText?: string };
+    responseDetails?: string;
+  };
+
+  const text = payload.responseData?.translatedText?.trim() ?? "";
+  if (payload.quotaFinished || /MYMEMORY WARNING/i.test(text)) {
+    throw new GraphQLError("Translation quota exceeded. Retry later or set DEEPL_API_KEY.");
+  }
+  if (payload.responseStatus && payload.responseStatus !== 200) {
+    throw new GraphQLError(payload.responseDetails || `Translation failed (${payload.responseStatus})`);
+  }
+  if (!text) {
+    throw new GraphQLError("Translation API returned an empty result");
+  }
+  return text;
+}
+
+async function translateWithDeepL(content: string, targetLang: string): Promise<string> {
   const key = process.env.DEEPL_API_KEY;
-  if (!key) throw new Error("DEEPL_API_KEY is not configured");
+  if (!key) throw new GraphQLError("DEEPL_API_KEY is not configured");
 
-  const base =
-    process.env.DEEPL_API_URL ?? "https://api-free.deepl.com/v2/translate";
-
+  const base = process.env.DEEPL_API_URL ?? "https://api-free.deepl.com/v2/translate";
   const body = new URLSearchParams({
     text: content,
-    target_lang: targetLang.toUpperCase().replace("-", "_").split("_")[0],
+    target_lang: toDeepLLang(targetLang),
   });
 
   const response = await fetch(base, {
@@ -70,41 +124,51 @@ async function translateWithDeepL(
 
   if (!response.ok) {
     const detail = await response.text();
-    throw new Error(`DeepL error ${response.status}: ${detail}`);
+    throw new GraphQLError(`DeepL error ${response.status}: ${detail}`);
   }
 
   const payload = (await response.json()) as {
     translations: Array<{ text: string }>;
   };
-  return { text: payload.translations[0]?.text ?? content };
+  return payload.translations[0]?.text ?? content;
+}
+
+async function translateOne(
+  content: string,
+  langCode: string,
+  languageName: string,
+  provider: TranslateProvider
+): Promise<string> {
+  if (provider === "mock") return mockTranslation(content, langCode, languageName);
+  if (provider === "deepl") return translateWithDeepL(content, langCode);
+  return translateWithMyMemory(content, langCode);
 }
 
 export async function translateWords(
   content: string,
   targetLanguages: string[]
 ): Promise<TranslationResult[]> {
-  const results: TranslationResult[] = [];
+  const trimmed = content.trim();
+  if (!trimmed) {
+    throw new GraphQLError("content must not be empty");
+  }
 
-  for (const code of targetLanguages) {
+  const provider = resolveProvider();
+  const languages = targetLanguages.map((code) => {
     const language = resolveLanguage(code);
     if (!language) {
       throw new GraphQLError(`Unknown language code: ${code}`);
     }
+    return language;
+  });
 
-    let text: string;
-    if (useMock()) {
-      text = mockTranslation(content, code, language.name);
-    } else {
-      const translated = await translateWithDeepL(content, code);
-      text = translated.text;
-    }
+  const texts = await Promise.all(
+    languages.map((language) => translateOne(trimmed, language.lang_code, language.name, provider))
+  );
 
-    results.push({
-      targetLanguage: language,
-      content: text,
-      pronunciation: "N.A",
-    });
-  }
-
-  return results;
+  return languages.map((language, index) => ({
+    targetLanguage: language,
+    content: texts[index],
+    pronunciation: "N.A",
+  }));
 }
